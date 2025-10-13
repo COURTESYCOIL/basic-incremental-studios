@@ -13,42 +13,33 @@ const defaultGameState = {
     oralTraditionsCost: 1000,
 };
 
-// Initialize gameState
 let gameState = { ...defaultGameState };
 
-
 // === DOM ELEMENTS ===
-// Prehistoric
 const primalEssenceDisplay = document.getElementById('primalEssenceDisplay');
 const primalEssencePerSecondDisplay = document.getElementById('primalEssencePerSecondDisplay');
 const nurtureButton = document.getElementById('nurtureButton');
 const buyGathererButton = document.getElementById('buyGathererButton');
 const gathererCountDisplay = document.getElementById('gathererCountDisplay');
 const gathererCostDisplay = document.getElementById('gathererCostDisplay');
-
-// Ancient
 const ancientEraContainer = document.getElementById('ancient-era');
 const civicEssenceDisplay = document.getElementById('civicEssenceDisplay');
 const civicEssencePerSecondDisplay = document.getElementById('civicEssencePerSecondDisplay');
 const buyScribeButton = document.getElementById('buyScribeButton');
 const scribeCountDisplay = document.getElementById('scribeCountDisplay');
 const scribeCostDisplay = document.getElementById('scribeCostDisplay');
-
-// Synergy
 const buyOralTraditionsButton = document.getElementById('buyOralTraditionsButton');
 const oralTraditionsLevelDisplay = document.getElementById('oralTraditionsLevelDisplay');
 const oralTraditionsCostDisplay = document.getElementById('oralTraditionsCostDisplay');
-
-// System
 const manualSaveButton = document.getElementById('manualSaveButton');
 const saveMessage = document.getElementById('saveMessage');
 
 
-// === CORE GAME FUNCTIONS ===
+// === CORE GAME FUNCTIONS (USER ACTIONS) ===
 
 function nurture() {
     gameState.primalEssence++;
-    // No need to call updateDisplay here, game loop handles it
+    updateDisplay(); // <<< FIX: Update immediately on click
 }
 
 function buyGatherer() {
@@ -57,6 +48,7 @@ function buyGatherer() {
         gameState.gatherers++;
         gameState.gathererCost = Math.ceil(gameState.gathererCost * 1.15);
         checkUnlocks();
+        updateDisplay(); // <<< FIX: Update immediately after purchase
     }
 }
 
@@ -65,6 +57,7 @@ function buyScribe() {
         gameState.civicEssence -= gameState.scribeCost;
         gameState.scribes++;
         gameState.scribeCost = Math.ceil(gameState.scribeCost * 1.20);
+        updateDisplay(); // <<< FIX: Update immediately after purchase
     }
 }
 
@@ -73,28 +66,22 @@ function buyOralTraditions() {
         gameState.primalEssence -= gameState.oralTraditionsCost;
         gameState.oralTraditionsLevel++;
         gameState.oralTraditionsCost = Math.ceil(gameState.oralTraditionsCost * 2.5);
+        updateDisplay(); // <<< FIX: Update immediately after purchase
     }
 }
 
 function checkUnlocks() {
-    // Unlock Ancient Era after owning 15 Cave Drawings
     if (!gameState.isAncientEraUnlocked && gameState.gatherers >= 15) {
         gameState.isAncientEraUnlocked = true;
     }
 }
 
-// === PRODUCTION AND DISPLAY ===
+// === PRODUCTION, DISPLAY, and GAME LOOP ===
 
-let productionRates = {
-    primal: 0,
-    civic: 0
-};
+let productionRates = { primal: 0, civic: 0 };
 
 function calculateProduction() {
-    // Primal Essence Production
     productionRates.primal = gameState.gatherers * 1;
-
-    // Civic Essence Production (Base + Synergy)
     const baseCivicProduction = gameState.scribes * 5;
     const synergyCivicProduction = gameState.oralTraditionsLevel * 0.1 * gameState.gatherers;
     productionRates.civic = baseCivicProduction + synergyCivicProduction;
@@ -109,25 +96,21 @@ function produceResources(deltaTime) {
 }
 
 function updateDisplay() {
-    // Update Primal display
+    calculateProduction(); // Always calculate latest rates before display
+
     primalEssenceDisplay.textContent = Math.floor(gameState.primalEssence).toLocaleString();
-    primalEssencePerSecondDisplay.textContent = productionRates.primal.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    primalEssencePerSecondDisplay.textContent = productionRates.primal.toFixed(1);
     gathererCountDisplay.textContent = gameState.gatherers.toLocaleString();
     gathererCostDisplay.textContent = gameState.gathererCost.toLocaleString();
     buyGathererButton.disabled = gameState.primalEssence < gameState.gathererCost;
-    
-    // Show/hide ancient era based on unlock status
+
     if (gameState.isAncientEraUnlocked) {
         ancientEraContainer.classList.remove('hidden');
-
-        // Update Ancient display
         civicEssenceDisplay.textContent = Math.floor(gameState.civicEssence).toLocaleString();
-        civicEssencePerSecondDisplay.textContent = productionRates.civic.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        civicEssencePerSecondDisplay.textContent = productionRates.civic.toFixed(1);
         scribeCountDisplay.textContent = gameState.scribes.toLocaleString();
         scribeCostDisplay.textContent = gameState.scribeCost.toLocaleString();
         buyScribeButton.disabled = gameState.civicEssence < gameState.scribeCost;
-
-        // Update Synergy display
         oralTraditionsLevelDisplay.textContent = gameState.oralTraditionsLevel.toLocaleString();
         oralTraditionsCostDisplay.textContent = gameState.oralTraditionsCost.toLocaleString();
         buyOralTraditionsButton.disabled = gameState.primalEssence < gameState.oralTraditionsCost;
@@ -158,8 +141,6 @@ function gameLoop() {
     const deltaTime = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
     
-    // The core loop: calculate, produce, and then show.
-    calculateProduction();
     produceResources(deltaTime);
     updateDisplay();
 
@@ -177,14 +158,8 @@ manualSaveButton.addEventListener('click', saveGame);
 // Auto-save every 30 seconds
 setInterval(saveGame, 30000);
 
-// Load game data from storage
+// Initialize
 loadGame();
-
-// <<<< FIX APPLIED HERE >>>>
-// Manually run the update cycle ONCE at the start to sync the UI with loaded data.
 checkUnlocks();
-calculateProduction();
-updateDisplay();
-
-// Now, start the continuous game loop.
+updateDisplay(); // Initial display sync on load
 requestAnimationFrame(gameLoop);
