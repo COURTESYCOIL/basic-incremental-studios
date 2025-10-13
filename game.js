@@ -1,12 +1,19 @@
 // === GAME STATE SETUP ===
 const defaultGameState = {
+    // Primal
     primalEssence: 0,
     gatherers: 0,
     gathererCost: 10,
+    stoneToolsLevel: 0,
+    stoneToolsCost: 50,
+    ritualDrumsLevel: 0,
+    ritualDrumsCost: 250,
+    // Ancient
     isAncientEraUnlocked: false,
     civicEssence: 0,
     scribes: 0,
     scribeCost: 10,
+    // Synergy
     oralTraditionsLevel: 0,
     oralTraditionsCost: 1000,
 };
@@ -26,9 +33,16 @@ const ancientUnlockProgress = document.getElementById('ancientUnlockProgress');
 const ancientUnlockCounter = document.getElementById('ancientUnlockCounter');
 const ancientUnlockBar = document.getElementById('ancientUnlockBar');
 const nurtureButton = document.getElementById('nurtureButton');
+const nurturePowerDisplay = document.getElementById('nurturePowerDisplay');
 const gathererCountDisplay = document.getElementById('gathererCountDisplay');
 const gathererCostDisplay = document.getElementById('gathererCostDisplay');
 const buyGathererButton = document.getElementById('buyGathererButton');
+const stoneToolsLevelDisplay = document.getElementById('stoneToolsLevelDisplay');
+const stoneToolsCostDisplay = document.getElementById('stoneToolsCostDisplay');
+const buyStoneToolsButton = document.getElementById('buyStoneToolsButton');
+const ritualDrumsLevelDisplay = document.getElementById('ritualDrumsLevelDisplay');
+const ritualDrumsCostDisplay = document.getElementById('ritualDrumsCostDisplay');
+const buyRitualDrumsButton = document.getElementById('buyRitualDrumsButton');
 const oralTraditionsLevelDisplay = document.getElementById('oralTraditionsLevelDisplay');
 const oralTraditionsCostDisplay = document.getElementById('oralTraditionsCostDisplay');
 const buyOralTraditionsButton = document.getElementById('buyOralTraditionsButton');
@@ -52,19 +66,14 @@ let productionRates = { primal: 0, civic: 0 };
 function getExchangeRates() {
     const { primalEssence, civicEssence } = gameState;
     const { primal: primalRate, civic: civicRate } = productionRates;
-
     const baseCost = 40;
     const stockRatio = (primalEssence + 500) / (civicEssence + 500);
     const prodRatio = (primalRate + 5) / (civicRate + 5);
-
     const primalValueMultiplier = Math.sqrt(stockRatio * prodRatio);
-
     let primalForCivic = baseCost * primalValueMultiplier;
     let civicForPrimal = baseCost / primalValueMultiplier;
-
     primalForCivic = Math.floor(Math.max(10, Math.min(primalForCivic, 5000)));
     civicForPrimal = Math.floor(Math.max(10, Math.min(civicForPrimal, 5000)));
-
     return { primalForCivic, civicForPrimal };
 }
 
@@ -81,8 +90,9 @@ function createFloatingText(text, x, y) {
 
 // === CORE GAME ACTIONS ===
 function nurture(event) {
-    gameState.primalEssence++;
-    createFloatingText('+1', event.clientX, event.clientY);
+    const nurturePower = 1 + gameState.stoneToolsLevel;
+    gameState.primalEssence += nurturePower;
+    createFloatingText(`+${nurturePower}`, event.clientX, event.clientY);
     updateDisplay();
 }
 
@@ -92,6 +102,24 @@ function buyGatherer() {
         gameState.gatherers++;
         gameState.gathererCost = Math.ceil(gameState.gathererCost * 1.15);
         checkUnlocks();
+        updateDisplay();
+    }
+}
+
+function buyStoneTools() {
+    if (gameState.primalEssence >= gameState.stoneToolsCost) {
+        gameState.primalEssence -= gameState.stoneToolsCost;
+        gameState.stoneToolsLevel++;
+        gameState.stoneToolsCost = Math.ceil(gameState.stoneToolsCost * 1.8);
+        updateDisplay();
+    }
+}
+
+function buyRitualDrums() {
+     if (gameState.primalEssence >= gameState.ritualDrumsCost) {
+        gameState.primalEssence -= gameState.ritualDrumsCost;
+        gameState.ritualDrumsLevel++;
+        gameState.ritualDrumsCost = Math.ceil(gameState.ritualDrumsCost * 2.2);
         updateDisplay();
     }
 }
@@ -140,112 +168,4 @@ function checkUnlocks() {
 
 // === CENTRAL UPDATE FUNCTION ===
 function calculateProduction() {
-    productionRates.primal = gameState.gatherers;
-    const baseCivic = gameState.scribes * 5;
-    const synergyCivic = gameState.oralTraditionsLevel * 0.1 * gameState.gatherers;
-    productionRates.civic = baseCivic + synergyCivic;
-}
-
-function updateDisplay() {
-    calculateProduction();
-    const floorPrimal = Math.floor(gameState.primalEssence);
-    const floorCivic = Math.floor(gameState.civicEssence);
-
-    // Header
-    headerPrimalEssence.textContent = floorPrimal.toLocaleString();
-    headerPrimalPerSec.textContent = productionRates.primal.toFixed(1);
-
-    // Prehistoric Era UI
-    gathererCountDisplay.textContent = gameState.gatherers.toLocaleString();
-    gathererCostDisplay.textContent = gameState.gathererCost.toLocaleString();
-
-    if (!gameState.isAncientEraUnlocked) {
-        const req = 15;
-        const progress = Math.min(gameState.gatherers / req, 1);
-        ancientUnlockCounter.textContent = `${gameState.gatherers} / ${req}`;
-        ancientUnlockBar.style.width = `${progress * 100}%`;
-        ancientUnlockProgress.style.display = 'block';
-    } else {
-        ancientUnlockProgress.style.display = 'none';
-    }
-
-    // Ancient Era Visibility and UI
-    if (gameState.isAncientEraUnlocked) {
-        ancientEraContainer.classList.remove('hidden');
-        headerCivicContainer.classList.remove('hidden');
-
-        headerCivicEssence.textContent = floorCivic.toLocaleString();
-        headerCivicPerSec.textContent = productionRates.civic.toFixed(1);
-        scribeCountDisplay.textContent = gameState.scribes.toLocaleString();
-        scribeCostDisplay.textContent = gameState.scribeCost.toLocaleString();
-        oralTraditionsLevelDisplay.textContent = gameState.oralTraditionsLevel.toLocaleString();
-        oralTraditionsCostDisplay.textContent = gameState.oralTraditionsCost.toLocaleString();
-        
-        const { primalForCivic, civicForPrimal } = getExchangeRates();
-        primalToCivicCost.textContent = primalForCivic.toLocaleString();
-        civicToPrimalCost.textContent = civicForPrimal.toLocaleString();
-        convertPrimalButton.disabled = floorPrimal < primalForCivic;
-        convertPrimalButton.classList.toggle('can-afford', floorPrimal >= primalForCivic);
-        convertCivicButton.disabled = floorCivic < civicForPrimal;
-        convertCivicButton.classList.toggle('can-afford', floorCivic >= civicForPrimal);
-    } else {
-         ancientEraContainer.classList.add('hidden');
-         headerCivicContainer.classList.add('hidden');
-    }
-
-    // Affordability Checks
-    buyGathererButton.disabled = floorPrimal < gameState.gathererCost;
-    buyOralTraditionsButton.disabled = floorPrimal < gameState.oralTraditionsCost;
-    buyScribeButton.disabled = floorCivic < gameState.scribeCost;
-
-    buyGathererButton.classList.toggle('can-afford', floorPrimal >= gameState.gathererCost);
-    buyOralTraditionsButton.classList.toggle('can-afford', floorPrimal >= gameState.oralTraditionsCost);
-    buyScribeButton.classList.toggle('can-afford', floorCivic >= gameState.scribeCost);
-}
-
-// === SAVING, LOADING, & GAME LOOP ===
-function saveGame() {
-    localStorage.setItem('chronoGardenerSave', JSON.stringify(gameState));
-    saveMessage.textContent = 'Saved!';
-    setTimeout(() => { saveMessage.textContent = '' }, 2000);
-}
-
-function loadGame() {
-    const savedGame = localStorage.getItem('chronoGardenerSave');
-    if (savedGame) {
-        const loadedState = JSON.parse(savedGame);
-        gameState = { ...defaultGameState, ...loadedState };
-    }
-}
-
-let lastUpdateTime = Date.now();
-function gameLoop() {
-    const currentTime = Date.now();
-    const deltaTime = currentTime - lastUpdateTime;
-    lastUpdateTime = currentTime;
-    produceResources(deltaTime);
-    updateDisplay();
-    requestAnimationFrame(gameLoop);
-}
-
-function produceResources(deltaTime) {
-    const seconds = deltaTime / 1000;
-    gameState.primalEssence += productionRates.primal * seconds;
-    if (gameState.isAncientEraUnlocked) {
-        gameState.civicEssence += productionRates.civic * seconds;
-    }
-}
-
-// === INITIALIZATION ===
-nurtureButton.addEventListener('click', (event) => nurture(event));
-buyGathererButton.addEventListener('click', buyGatherer);
-buyScribeButton.addEventListener('click', buyScribe);
-buyOralTraditionsButton.addEventListener('click', buyOralTraditions);
-convertPrimalButton.addEventListener('click', convertPrimalToCivic);
-convertCivicButton.addEventListener('click', convertCivicToPrimal);
-manualSaveButton.addEventListener('click', saveGame);
-setInterval(saveGame, 30000);
-
-loadGame();
-checkUnlocks();
-requestAnimationFrame(gameLoop);
+    const drumBonus = 1 + (gameState.ritualD
