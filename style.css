@@ -1,6 +1,67 @@
-/* ... (Keep General, Top Bar, Era Containers, Floating Text, Glow, and Progress Bar styles) ... */
+/* === GENERAL & SETUP === */
+body {
+    background-color: #1a1a1d;
+    color: #c5c6c7;
+    font-family: 'Quattrocento Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 60px; /* Space for the fixed top bar */
+}
 
-/* === REPLACE .upgrade-grid and .upgrade-item styles with this new CARD system === */
+.main-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.main-title {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 2.5em;
+    color: #66fcf1;
+    text-shadow: 0 0 5px #66fcf1, 0 0 10px #45a29e;
+}
+
+.hidden { display: none !important; }
+
+/* === TOP RESOURCE BAR === */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0b0c10;
+    border-bottom: 2px solid #45a29e;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.resource-header { display: flex; gap: 20px; }
+.resource-item { font-size: 1.1em; }
+.resource-label { font-family: 'Cinzel', serif; margin-right: 8px; color: #c5c6c7; }
+.resource-item.primal span { color: #90ee90; }
+.resource-item.civic span { color: #ffd700; }
+.save-section { display: flex; align-items: center; }
+.save-button { background: #45a29e; color: #0b0c10; border: none; padding: 8px 15px; border-radius: 4px; font-family: 'Cinzel', serif; cursor: pointer; }
+#saveMessage { margin-left: 10px; font-style: italic; color: #66fcf1; }
+
+/* === ERA CONTAINERS === */
+.era-container {
+    background-color: #1f2833;
+    border: 1px solid #45a29e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.era-title { font-family: 'Cinzel', serif; font-size: 1.8em; color: #66fcf1; margin-top: 0; }
+.era-description { color: #c5c6c7; font-style: italic; margin-bottom: 25px; }
+
+
+/* === CARD-BASED UI SYSTEM === */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -50,27 +111,12 @@
     margin-bottom: 15px;
 }
 
-.buy-button { /* Replaces generic .upgrade-item button */
-    font-family: 'Cinzel', serif;
-    cursor: pointer;
-    border-radius: 4px;
-    border: none;
-    padding: 10px;
-    font-size: 1em;
-    transition: all 0.2s ease;
-    background-color: #45a29e;
-    color: #0b0c10;
-    width: 100%;
-}
-.buy-button:hover:not(:disabled) { background-color: #66fcf1; }
-
-
 /* Specific Card Borders */
 .card-synergy { border-left: 3px solid #ffd700; }
 .card-exchange { border-left: 3px solid #ff6347; }
 
 
-/* === NEW: Temporal Exchange Card Styles === */
+/* === Temporal Exchange Card Styles === */
 .exchange-actions {
     display: flex;
     justify-content: space-around;
@@ -91,3 +137,81 @@
 
 .cost.primal, .gain.primal { color: #90ee90; }
 .cost.civic, .gain.civic { color: #ffd700; }
+
+/* === BUTTONS === */
+.buy-button {
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    padding: 10px;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    background-color: #45a29e;
+    color: #0b0c10;
+    width: 100%;
+}
+.buy-button:hover:not(:disabled) { background-color: #66fcf1; }
+
+.nurture-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    background-color: #2e6b2e;
+    color: white;
+    margin-bottom: 25px;
+    border: 2px solid #90ee90;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.nurture-button:hover {
+    background-color: #3f8f3f;
+}
+
+.buy-button:disabled {
+    background-color: #333;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* === UX/UI IMPROVEMENTS === */
+#floatingTextContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+.floating-text {
+    position: absolute;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #90ee90;
+    animation: float-up 1.5s ease-out forwards;
+    user-select: none;
+    text-shadow: 0 0 5px black;
+}
+
+@keyframes float-up {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-80px); opacity: 0; }
+}
+
+.buy-button.can-afford {
+    box-shadow: 0 0 10px #66fcf1, 0 0 5px #66fcf1 inset;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.unlock-progress { margin-bottom: 25px; }
+.progress-bar-label { display: flex; justify-content: space-between; font-family: 'Cinzel', serif; font-size: 0.9em; color: #c5c6c7; margin-bottom: 5px; }
+.progress-bar-bg { background-color: #0b0c10; border-radius: 5px; padding: 3px; border: 1px solid #45a29e; }
+.progress-bar-inner { height: 12px; background-color: #66fcf1; border-radius: 3px; width: 0%; transition: width 0.5s ease-out; box-shadow: 0 0 10px #66fcf1; }
