@@ -29,6 +29,7 @@ h1, h2 {
 
 .era-container {
     padding: 15px;
+    margin-top: 20px;
     border: 2px solid #5a5661;
     border-radius: 5px;
 }
@@ -47,9 +48,15 @@ h1, h2 {
     font-size: 1.2em;
 }
 
+/* Color for Primal Essence */
 .resource-display span {
     font-weight: bold;
-    color: #90ee90; /* A nice light green for contrast */
+    color: #90ee90;
+}
+
+/* Specific color for the new Civic Essence */
+.resource-display.ancient span {
+    color: #ffd700; /* Gold */
 }
 
 button {
@@ -66,12 +73,19 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background-color: #7d685e;
 }
 
-button:active {
+button:active:not(:disabled) {
     transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #4a4a4a;
+    color: #888;
+    cursor: not-allowed;
+    border-color: #666;
 }
 
 .upgrade-item {
@@ -94,4 +108,8 @@ button:active {
     margin-top: 10px;
     font-style: italic;
     color: #aaa;
+}
+
+.hidden {
+    display: none;
 }
