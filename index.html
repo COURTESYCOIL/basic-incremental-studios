@@ -111,16 +111,24 @@
                     <p class="card-desc">Shift power between eras. Rates fluctuate based on supply and demand.</p>
                     
                     <div class="exchange-actions">
+                        <!-- Primal to Civic -->
                         <div class="exchange-item">
-                            <p class="exchange-rate">Spend <span class="cost primal" id="primalToCivicCost">--</span> Primal</p>
-                            <p class="exchange-arrow">↓</p>
-                            <p class="exchange-gain">Get <span class="gain civic">10</span> Civic</p>
+                            <label class="exchange-label" for="civic-amount-input">Get Civic Essence</label>
+                            <input type="number" id="civicAmountInput" class="exchange-input" value="100" min="10" step="10">
+                            <div class="exchange-details">
+                                <p class="rate-display">(Rate: <span id="primalToCivicRate">--</span> Primal per 10)</p>
+                                <p class="total-cost">Total Cost: <span class="cost primal" id="primalToCivicTotalCost">--</span></p>
+                            </div>
                             <button id="convertPrimalButton" class="buy-button">Exchange</button>
                         </div>
+                        <!-- Civic to Primal -->
                         <div class="exchange-item">
-                            <p class="exchange-rate">Spend <span class="cost civic" id="civicToPrimalCost">--</span> Civic</p>
-                            <p class="exchange-arrow">↓</p>
-                            <p class="exchange-gain">Get <span class="gain primal">10</span> Primal</p>
+                             <label class="exchange-label" for="primal-amount-input">Get Primal Essence</label>
+                            <input type="number" id="primalAmountInput" class="exchange-input" value="100" min="10" step="10">
+                             <div class="exchange-details">
+                                <p class="rate-display">(Rate: <span id="civicToPrimalRate">--</span> Civic per 10)</p>
+                                <p class="total-cost">Total Cost: <span class="cost civic" id="civicToPrimalTotalCost">--</span></p>
+                            </div>
                             <button id="convertCivicButton" class="buy-button">Exchange</button>
                         </div>
                     </div>
