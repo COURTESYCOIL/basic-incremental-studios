@@ -1,12 +1,12 @@
 // Default Game State
 const defaultGameState = {
-    primalEssence: 100,
-    gatherers: 100,
+    primalEssence: 0,
+    gatherers: 0,
     gathererCost: 10,
 
     isAncientEraUnlocked: false,
-    civicEssence: 100,
-    scribes: 100,
+    civicEssence: 0,
+    scribes: 0,
     scribeCost: 10,
 
     oralTraditionsLevel: 0,
@@ -48,7 +48,7 @@ const saveMessage = document.getElementById('saveMessage');
 
 function nurture() {
     gameState.primalEssence++;
-    updateDisplay();
+    // No need to call updateDisplay here, game loop handles it
 }
 
 function buyGatherer() {
@@ -56,8 +56,7 @@ function buyGatherer() {
         gameState.primalEssence -= gameState.gathererCost;
         gameState.gatherers++;
         gameState.gathererCost = Math.ceil(gameState.gathererCost * 1.15);
-        checkUnlocks(); // Check if this purchase unlocks the next era
-        updateDisplay();
+        checkUnlocks();
     }
 }
 
@@ -66,7 +65,6 @@ function buyScribe() {
         gameState.civicEssence -= gameState.scribeCost;
         gameState.scribes++;
         gameState.scribeCost = Math.ceil(gameState.scribeCost * 1.20);
-        updateDisplay();
     }
 }
 
@@ -74,8 +72,7 @@ function buyOralTraditions() {
     if (gameState.primalEssence >= gameState.oralTraditionsCost) {
         gameState.primalEssence -= gameState.oralTraditionsCost;
         gameState.oralTraditionsLevel++;
-        gameState.oralTraditionsCost = Math.ceil(gameState.oralTraditionsCost * 2.5); // Costs more each time
-        updateDisplay();
+        gameState.oralTraditionsCost = Math.ceil(gameState.oralTraditionsCost * 2.5);
     }
 }
 
@@ -83,7 +80,6 @@ function checkUnlocks() {
     // Unlock Ancient Era after owning 15 Cave Drawings
     if (!gameState.isAncientEraUnlocked && gameState.gatherers >= 15) {
         gameState.isAncientEraUnlocked = true;
-        ancientEraContainer.classList.remove('hidden');
     }
 }
 
@@ -100,7 +96,6 @@ function calculateProduction() {
 
     // Civic Essence Production (Base + Synergy)
     const baseCivicProduction = gameState.scribes * 5;
-    // SYNERGY: Each level of Oral Traditions makes each Cave Drawing produce 0.1 Civic Essence/sec
     const synergyCivicProduction = gameState.oralTraditionsLevel * 0.1 * gameState.gatherers;
     productionRates.civic = baseCivicProduction + synergyCivicProduction;
 }
@@ -136,6 +131,8 @@ function updateDisplay() {
         oralTraditionsLevelDisplay.textContent = gameState.oralTraditionsLevel.toLocaleString();
         oralTraditionsCostDisplay.textContent = gameState.oralTraditionsCost.toLocaleString();
         buyOralTraditionsButton.disabled = gameState.primalEssence < gameState.oralTraditionsCost;
+    } else {
+        ancientEraContainer.classList.add('hidden');
     }
 }
 
@@ -150,8 +147,6 @@ function loadGame() {
     const savedGame = localStorage.getItem('chronoGardenerSave');
     if (savedGame) {
         const loadedState = JSON.parse(savedGame);
-        // This merges the default state with the loaded state,
-        // ensuring new features are added to old saves.
         gameState = { ...defaultGameState, ...loadedState };
     }
 }
@@ -163,6 +158,7 @@ function gameLoop() {
     const deltaTime = currentTime - lastUpdateTime;
     lastUpdateTime = currentTime;
     
+    // The core loop: calculate, produce, and then show.
     calculateProduction();
     produceResources(deltaTime);
     updateDisplay();
@@ -181,7 +177,14 @@ manualSaveButton.addEventListener('click', saveGame);
 // Auto-save every 30 seconds
 setInterval(saveGame, 30000);
 
-// Load game, check for unlocks on load, then start the loop
+// Load game data from storage
 loadGame();
-checkUnlocks(); 
+
+// <<<< FIX APPLIED HERE >>>>
+// Manually run the update cycle ONCE at the start to sync the UI with loaded data.
+checkUnlocks();
+calculateProduction();
+updateDisplay();
+
+// Now, start the continuous game loop.
 requestAnimationFrame(gameLoop);
