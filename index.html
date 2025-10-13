@@ -5,72 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrono-Gardener</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quattrocento+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="top-bar">
+        <div class="resource-header">
+            <div class="resource-item primal">
+                <span class="resource-label">Primal Essence</span>
+                <span id="headerPrimalEssence">0</span>
+                (<span id="headerPrimalPerSec">0.0</span>/s)
+            </div>
+            <div class="resource-item civic hidden" id="headerCivicContainer">
+                <span class="resource-label">Civic Essence</span>
+                <span id="headerCivicEssence">0</span>
+                (<span id="headerCivicPerSec">0.0</span>/s)
+            </div>
+        </div>
+        <div class="save-section">
+            <button id="manualSaveButton" class="save-button">Save</button>
+            <p id="saveMessage"></p>
+        </div>
+    </div>
+
     <div class="main-container">
-        <h1>Chrono-Gardener</h1>
-        <p class="instructions">
-            Your journey begins with a single touch. Nurture the first Time Seed to gather Essence.
-        </p>
+        <h1 class="main-title">Chrono-Gardener</h1>
+
         <!-- ================= PREHISTORIC ERA ================= -->
         <div class="era-container" id="prehistoric-era">
-            <h2>The Prehistoric Era</h2>
+            <h2 class="era-title">I. The Prehistoric Era</h2>
+            <p class="era-description">The dawn of time, pulsing with raw, untamed energy.</p>
 
-            <div class="resource-display">
-                <p>Primal Essence: <span id="primalEssenceDisplay">0</span></p>
-                <p>per second: <span id="primalEssencePerSecondDisplay">0.0</span></p>
-            </div>
+            <button id="nurtureButton" class="nurture-button">Nurture The First Seed</button>
 
-            <div class="action-section">
-                <!-- ADDED "nurture-button" class for special styling -->
-                <button id="nurtureButton" class="nurture-button">Nurture Time Seed (+1 Essence)</button>
-            </div>
-
-            <div class="upgrade-section">
-                <h3>Time Seeds (Generators)</h3>
+            <div class="upgrade-grid">
                 <div class="upgrade-item">
-                    <p><strong>Cave Drawings</strong></p>
-                    <p>Generates 1 Essence per second.</p>
-                    <p>Owned: <span id="gathererCountDisplay">0</span></p>
-                    <button id="buyGathererButton">Plant Seed (Cost: <span id="gathererCostDisplay">10</span> Primal)</button>
+                    <h3>Cave Drawings</h3>
+                    <p>Unlock humanity's first expressions.</p>
+                    <p class="details">Generates +1 Primal Essence/sec.</p>
+                    <p class="owned">Owned: <span id="gathererCountDisplay">0</span></p>
+                    <button id="buyGathererButton">Plant (Cost: <span id="gathererCostDisplay">10</span>)</button>
                 </div>
-            </div>
 
-            <div class="upgrade-section">
-                <h3>Synergy Upgrades</h3>
-                 <div class="upgrade-item">
-                    <p><strong>Oral Traditions</strong></p>
-                    <p>Ancient storytellers inspire early Scribes. Each Cave Drawing slightly boosts Civic Essence production.</p>
-                    <p>Level: <span id="oralTraditionsLevelDisplay">0</span></p>
-                    <button id="buyOralTraditionsButton" disabled>Research (Cost: <span id="oralTraditionsCostDisplay">1,000</span> Primal)</button>
+                <div class="upgrade-item synergy">
+                    <h3>Oral Traditions</h3>
+                    <p>Pass down knowledge through generations.</p>
+                    <p class="details">Each level makes Cave Drawings boost Civic Essence generation.</p>
+                    <p class="owned">Level: <span id="oralTraditionsLevelDisplay">0</span></p>
+                    <button id="buyOralTraditionsButton" disabled>Research (Cost: <span id="oralTraditionsCostDisplay">1,000</span>)</button>
                 </div>
             </div>
         </div>
 
         <!-- ================= ANCIENT ERA (Initially Hidden) ================= -->
         <div class="era-container hidden" id="ancient-era">
-            <h2>The Ancient Era</h2>
+            <h2 class="era-title">II. The Ancient Era</h2>
+            <p class="era-description">Empires rise on foundations of knowledge and order.</p>
 
-            <div class="resource-display ancient">
-                <p>Civic Essence: <span id="civicEssenceDisplay">0</span></p>
-                <p>per second: <span id="civicEssencePerSecondDisplay">0.0</span></p>
-            </div>
+            <div class="upgrade-grid">
+                 <div class="upgrade-item">
+                    <h3>Written Language</h3>
+                    <p>Scribes begin to document history.</p>
+                    <p class="details">Generates +5 Civic Essence/sec.</p>
+                    <p class="owned">Owned: <span id="scribeCountDisplay">0</span></p>
+                    <button id="buyScribeButton">Employ (Cost: <span id="scribeCostDisplay">10</span>)</button>
+                </div>
 
-            <div class="upgrade-section">
-                <h3>Time Seeds (Generators)</h3>
-                <div class="upgrade-item">
-                    <p><strong>Written Language</strong></p>
-                    <p>Scribes begin documenting history, generating 5 Civic Essence per second.</p>
-                    <p>Owned: <span id="scribeCountDisplay">0</span></p>
-                    <button id="buyScribeButton">Employ Scribe (Cost: <span id="scribeCostDisplay">10</span> Civic)</button>
+                <div class="upgrade-item special-action">
+                    <h3>Temporal Sacrifice</h3>
+                    <p>Convert knowledge back into raw power.</p>
+                    <p class="details">Sacrifice 20 Civic Essence to create 10 Primal Essence.</p>
+                    <p class="owned">&nbsp;</p> <!-- Empty P for alignment -->
+                    <button id="convertCivicButton" disabled>Sacrifice</button>
                 </div>
             </div>
-        </div>
-
-        <div class="save-section">
-             <button id="manualSaveButton">Save Game</button>
-             <p id="saveMessage"></p>
         </div>
     </div>
 
