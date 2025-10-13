@@ -1,12 +1,12 @@
 // Default Game State
 const defaultGameState = {
-    primalEssence: 0,
-    gatherers: 0,
+    primalEssence: 100,
+    gatherers: 100,
     gathererCost: 10,
 
     isAncientEraUnlocked: false,
-    civicEssence: 0,
-    scribes: 0,
+    civicEssence: 100,
+    scribes: 100,
     scribeCost: 10,
 
     oralTraditionsLevel: 0,
