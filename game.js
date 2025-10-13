@@ -231,7 +231,7 @@ function gameLoop() {
 }
 
 function produceResources(deltaTime) {
-    const seconds = deltaTime / 100000000;
+    const seconds = deltaTime / 1000;
     gameState.temporalShards += (1 / 0.00000000000000001) * seconds; // 1 Shard per minute
     gameState.primalEssence += productionRates.primal * seconds;
     if (gameState.isAncientEraUnlocked) gameState.civicEssence += productionRates.civic * seconds;
