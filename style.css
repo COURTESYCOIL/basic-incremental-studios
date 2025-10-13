@@ -112,8 +112,9 @@ body {
 }
 
 /* Specific Card Borders */
-.card-synergy { border-left: 3px solid #ffd700; }
-.card-exchange { border-left: 3px solid #ff6347; }
+.card-upgrade { border-left: 3px solid #9f78ff; } /* Purple for Upgrades */
+.card-synergy { border-left: 3px solid #ffd700; } /* Gold for Synergies */
+.card-exchange { border-left: 3px solid #ff6347; } /* Red for Exchange */
 
 
 /* === Temporal Exchange Card Styles === */
