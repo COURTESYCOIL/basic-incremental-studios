@@ -27,6 +27,14 @@ h1, h2 {
     text-shadow: 2px 2px 4px #000;
 }
 
+/* NEW: Styling for the instruction text */
+.instructions {
+    text-align: center;
+    font-style: italic;
+    color: #b0aeb4;
+    margin: -10px 0 20px 0;
+}
+
 .era-container {
     padding: 15px;
     margin-top: 20px;
@@ -48,17 +56,43 @@ h1, h2 {
     font-size: 1.2em;
 }
 
-/* Color for Primal Essence */
 .resource-display span {
     font-weight: bold;
-    color: #90ee90;
+    color: #90ee90; /* Primal Green */
 }
 
-/* Specific color for the new Civic Essence */
 .resource-display.ancient span {
-    color: #ffd700; /* Gold */
+    color: #ffd700; /* Civic Gold */
 }
 
+
+/* NEW and IMPROVED: Special style for the main clicker button */
+.nurture-button {
+    background-color: #2a5232; /* A rich, natural green */
+    color: #fff;
+    border: 2px solid #90ee90;
+    border-radius: 8px;
+    padding: 15px 20px; /* Make it taller */
+    font-family: 'Cinzel', serif;
+    font-size: 1.2em; /* Make text bigger */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    margin-bottom: 15px; /* Add some space below it */
+    box-shadow: 0 0 10px rgba(144, 238, 144, 0.5); /* Add a glow */
+}
+
+.nurture-button:hover {
+    background-color: #3f7d4d;
+    box-shadow: 0 0 15px rgba(144, 238, 144, 0.8);
+}
+
+.nurture-button:active {
+    transform: scale(0.98);
+}
+
+
+/* Generic button styling for all other buttons */
 button {
     background-color: #63524b;
     color: #e8e6e3;
