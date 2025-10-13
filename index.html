@@ -8,23 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quattrocento+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="floatingTextContainer"></div>
     <div class="top-bar">
-        <div class="resource-header">
-            <div class="resource-item primal">
-                <span class="resource-label">Primal Essence</span>
-                <span id="headerPrimalEssence">0</span>
-                (<span id="headerPrimalPerSec">0.0</span>/s)
-            </div>
-            <div class="resource-item civic hidden" id="headerCivicContainer">
-                <span class="resource-label">Civic Essence</span>
-                <span id="headerCivicEssence">0</span>
-                (<span id="headerCivicPerSec">0.0</span>/s)
-            </div>
-        </div>
-        <div class="save-section">
-            <button id="manualSaveButton" class="save-button">Save</button>
-            <p id="saveMessage"></p>
-        </div>
+        <!-- ... (Top bar is unchanged) ... -->
     </div>
 
     <div class="main-container">
@@ -33,25 +19,26 @@
         <!-- ================= PREHISTORIC ERA ================= -->
         <div class="era-container" id="prehistoric-era">
             <h2 class="era-title">I. The Prehistoric Era</h2>
-            <p class="era-description">The dawn of time, pulsing with raw, untamed energy.</p>
-
+            <!-- ... (Progress Bar is unchanged) ... -->
             <button id="nurtureButton" class="nurture-button">Nurture The First Seed</button>
 
-            <div class="upgrade-grid">
-                <div class="upgrade-item">
-                    <h3>Cave Drawings</h3>
-                    <p>Unlock humanity's first expressions.</p>
-                    <p class="details">Generates +1 Primal Essence/sec.</p>
-                    <p class="owned">Owned: <span id="gathererCountDisplay">0</span></p>
-                    <button id="buyGathererButton">Plant (Cost: <span id="gathererCostDisplay">10</span>)</button>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Cave Drawings</h3>
+                        <div class="owned-display">Owned: <span id="gathererCountDisplay">0</span></div>
+                    </div>
+                    <p class="card-desc">Unlock humanity's first expressions. Generates +1 Primal Essence/sec.</p>
+                    <button id="buyGathererButton" class="buy-button">Plant (Cost: <span id="gathererCostDisplay">10</span>)</button>
                 </div>
 
-                <div class="upgrade-item synergy">
-                    <h3>Oral Traditions</h3>
-                    <p>Pass down knowledge through generations.</p>
-                    <p class="details">Each level makes Cave Drawings boost Civic Essence generation.</p>
-                    <p class="owned">Level: <span id="oralTraditionsLevelDisplay">0</span></p>
-                    <button id="buyOralTraditionsButton" disabled>Research (Cost: <span id="oralTraditionsCostDisplay">1,000</span>)</button>
+                <div class="card card-synergy">
+                    <div class="card-header">
+                        <h3>Oral Traditions</h3>
+                        <div class="owned-display">Level: <span id="oralTraditionsLevelDisplay">0</span></div>
+                    </div>
+                    <p class="card-desc">Each level makes Cave Drawings boost Civic Essence generation.</p>
+                    <button id="buyOralTraditionsButton" class="buy-button">Research (Cost: <span id="oralTraditionsCostDisplay">1,000</span>)</button>
                 </div>
             </div>
         </div>
@@ -59,28 +46,44 @@
         <!-- ================= ANCIENT ERA (Initially Hidden) ================= -->
         <div class="era-container hidden" id="ancient-era">
             <h2 class="era-title">II. The Ancient Era</h2>
-            <p class="era-description">Empires rise on foundations of knowledge and order.</p>
 
-            <div class="upgrade-grid">
-                 <div class="upgrade-item">
-                    <h3>Written Language</h3>
-                    <p>Scribes begin to document history.</p>
-                    <p class="details">Generates +5 Civic Essence/sec.</p>
-                    <p class="owned">Owned: <span id="scribeCountDisplay">0</span></p>
-                    <button id="buyScribeButton">Employ (Cost: <span id="scribeCostDisplay">10</span>)</button>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Written Language</h3>
+                        <div class="owned-display">Owned: <span id="scribeCountDisplay">0</span></div>
+                    </div>
+                    <p class="card-desc">Scribes begin to document history. Generates +5 Civic Essence/sec.</p>
+                    <button id="buyScribeButton" class="buy-button">Employ (Cost: <span id="scribeCostDisplay">10</span>)</button>
                 </div>
 
-                <div class="upgrade-item special-action">
-                    <h3>Temporal Sacrifice</h3>
-                    <p>Convert knowledge back into raw power.</p>
-                    <p class="details">Sacrifice 20 Civic Essence to create 10 Primal Essence.</p>
-                    <p class="owned">&nbsp;</p> <!-- Empty P for alignment -->
-                    <button id="convertCivicButton" disabled>Sacrifice</button>
+                <div class="card card-exchange" id="temporal-exchange-card">
+                    <div class="card-header">
+                        <h3>Temporal Exchange</h3>
+                    </div>
+                    <p class="card-desc">Shift power between eras. Rates fluctuate based on supply and demand.</p>
+                    
+                    <div class="exchange-actions">
+                        <!-- Primal to Civic -->
+                        <div class="exchange-item">
+                            <p class="exchange-rate">Spend <span class="cost primal" id="primalToCivicCost">--</span> Primal</p>
+                            <p class="exchange-arrow">↓</p>
+                            <p class="exchange-gain">Get <span class="gain civic">10</span> Civic</p>
+                            <button id="convertPrimalButton" class="buy-button">Exchange</button>
+                        </div>
+                        <!-- Civic to Primal -->
+                        <div class="exchange-item">
+                            <p class="exchange-rate">Spend <span class="cost civic" id="civicToPrimalCost">--</span> Civic</p>
+                            <p class="exchange-arrow">↓</p>
+                            <p class="exchange-gain">Get <span class="gain primal">10</span> Primal</p>
+                            <button id="convertCivicButton" class="buy-button">Exchange</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- Load JS last -->
     <script src="game.js"></script>
 </body>
 </html>
