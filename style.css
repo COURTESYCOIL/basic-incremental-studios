@@ -107,111 +107,45 @@ body {
 .card-desc {
     color: #999;
     font-style: italic;
-    flex-grow: 1; /* Pushes button to bottom */
+    flex-grow: 1; 
     margin-bottom: 15px;
 }
 
 /* Specific Card Borders */
-.card-upgrade { border-left: 3px solid #9f78ff; } /* Purple for Upgrades */
-.card-synergy { border-left: 3px solid #ffd700; } /* Gold for Synergies */
-.card-exchange { border-left: 3px solid #ff6347; } /* Red for Exchange */
+.card-upgrade { border-left: 3px solid #9f78ff; }
+.card-synergy { border-left: 3px solid #ffd700; }
+.card-exchange { border-left: 3px solid #ff6347; }
 
 
 /* === Temporal Exchange Card Styles === */
-.exchange-actions {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    gap: 15px;
-}
-.exchange-item {
-    background: #1f2833;
-    padding: 10px;
-    border-radius: 4px;
-    width: 100%;
-    border: 1px solid #4f5a6b;
-}
+.exchange-actions { display: flex; justify-content: space-around; gap: 15px; }
+.exchange-item { display: flex; flex-direction: column; text-align: center; background: #1f2833; padding: 15px; border-radius: 4px; width: 100%; border: 1px solid #4f5a6b; }
+.exchange-label { font-family: 'Cinzel', serif; font-size: 1.1em; margin-bottom: 10px; }
+.exchange-input { background-color: #0b0c10; border: 1px solid #45a29e; color: #c5c6c7; text-align: center; font-size: 1.2em; padding: 5px; border-radius: 4px; width: 80%; margin: 0 auto; }
+.exchange-input:focus { outline: none; box-shadow: 0 0 10px #66fcf1; }
+/* Hides the arrows in number inputs for a cleaner look */
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
 
-.exchange-rate { margin: 5px 0; font-size: 0.9em;}
-.exchange-gain { margin: 5px 0; font-weight: bold; font-size: 1em; }
-.exchange-arrow { color: #66fcf1; font-size: 1.2em; margin: 5px 0; }
-
-.cost.primal, .gain.primal { color: #90ee90; }
-.cost.civic, .gain.civic { color: #ffd700; }
+.exchange-details { flex-grow: 1; margin: 15px 0; }
+.rate-display { color: #999; font-style: italic; margin: 0 0 10px 0; }
+.total-cost { font-weight: bold; margin: 0; }
+.cost.primal { color: #90ee90; }
+.cost.civic { color: #ffd700; }
 
 /* === BUTTONS === */
-.buy-button {
-    font-family: 'Cinzel', serif;
-    cursor: pointer;
-    border-radius: 4px;
-    border: none;
-    padding: 10px;
-    font-size: 1em;
-    transition: all 0.2s ease;
-    background-color: #45a29e;
-    color: #0b0c10;
-    width: 100%;
-}
+.buy-button { font-family: 'Cinzel', serif; cursor: pointer; border-radius: 4px; border: none; padding: 10px; font-size: 1em; transition: all 0.2s ease; background-color: #45a29e; color: #0b0c10; width: 100%; }
 .buy-button:hover:not(:disabled) { background-color: #66fcf1; }
-
-.nurture-button {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2em;
-    background-color: #2e6b2e;
-    color: white;
-    margin-bottom: 25px;
-    border: 2px solid #90ee90;
-    font-family: 'Cinzel', serif;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.nurture-button:hover {
-    background-color: #3f8f3f;
-}
-
-.buy-button:disabled {
-    background-color: #333;
-    color: #777;
-    cursor: not-allowed;
-}
+.nurture-button { width: 100%; padding: 15px; font-size: 1.2em; background-color: #2e6b2e; color: white; margin-bottom: 25px; border: 2px solid #90ee90; font-family: 'Cinzel', serif; cursor: pointer; transition: all 0.2s ease; }
+.nurture-button:hover { background-color: #3f8f3f; }
+.buy-button:disabled { background-color: #333; color: #777; cursor: not-allowed; }
 
 /* === UX/UI IMPROVEMENTS === */
-#floatingTextContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-}
-.floating-text {
-    position: absolute;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #90ee90;
-    animation: float-up 1.5s ease-out forwards;
-    user-select: none;
-    text-shadow: 0 0 5px black;
-}
-
-@keyframes float-up {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-80px); opacity: 0; }
-}
-
-.buy-button.can-afford {
-    box-shadow: 0 0 10px #66fcf1, 0 0 5px #66fcf1 inset;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
+#floatingTextContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+.floating-text { position: absolute; font-size: 1.5em; font-weight: bold; color: #90ee90; animation: float-up 1.5s ease-out forwards; user-select: none; text-shadow: 0 0 5px black; }
+@keyframes float-up { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-80px); opacity: 0; } }
+.buy-button.can-afford { box-shadow: 0 0 10px #66fcf1, 0 0 5px #66fcf1 inset; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 .unlock-progress { margin-bottom: 25px; }
 .progress-bar-label { display: flex; justify-content: space-between; font-family: 'Cinzel', serif; font-size: 0.9em; color: #c5c6c7; margin-bottom: 5px; }
 .progress-bar-bg { background-color: #0b0c10; border-radius: 5px; padding: 3px; border: 1px solid #45a29e; }
