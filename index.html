@@ -9,8 +9,24 @@
 </head>
 <body>
     <div id="floatingTextContainer"></div>
+
     <div class="top-bar">
-        <!-- ... (Top bar is unchanged) ... -->
+        <div class="resource-header">
+            <div class="resource-item primal">
+                <span class="resource-label">Primal Essence</span>
+                <span id="headerPrimalEssence">0</span>
+                (<span id="headerPrimalPerSec">0.0</span>/s)
+            </div>
+            <div class="resource-item civic hidden" id="headerCivicContainer">
+                <span class="resource-label">Civic Essence</span>
+                <span id="headerCivicEssence">0</span>
+                (<span id="headerCivicPerSec">0.0</span>/s)
+            </div>
+        </div>
+        <div class="save-section">
+            <button id="manualSaveButton" class="save-button">Save</button>
+            <p id="saveMessage"></p>
+        </div>
     </div>
 
     <div class="main-container">
@@ -19,7 +35,18 @@
         <!-- ================= PREHISTORIC ERA ================= -->
         <div class="era-container" id="prehistoric-era">
             <h2 class="era-title">I. The Prehistoric Era</h2>
-            <!-- ... (Progress Bar is unchanged) ... -->
+            <p class="era-description">The dawn of time, pulsing with raw, untamed energy.</p>
+            
+            <div class="unlock-progress" id="ancientUnlockProgress">
+                <div class="progress-bar-label">
+                    <span>Unlock Ancient Era</span>
+                    <span id="ancientUnlockCounter">0 / 15</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="ancientUnlockBar" class="progress-bar-inner"></div>
+                </div>
+            </div>
+
             <button id="nurtureButton" class="nurture-button">Nurture The First Seed</button>
 
             <div class="card-grid">
@@ -46,6 +73,7 @@
         <!-- ================= ANCIENT ERA (Initially Hidden) ================= -->
         <div class="era-container hidden" id="ancient-era">
             <h2 class="era-title">II. The Ancient Era</h2>
+            <p class="era-description">Empires rise on foundations of knowledge and order.</p>
 
             <div class="card-grid">
                 <div class="card">
@@ -64,14 +92,12 @@
                     <p class="card-desc">Shift power between eras. Rates fluctuate based on supply and demand.</p>
                     
                     <div class="exchange-actions">
-                        <!-- Primal to Civic -->
                         <div class="exchange-item">
                             <p class="exchange-rate">Spend <span class="cost primal" id="primalToCivicCost">--</span> Primal</p>
                             <p class="exchange-arrow">↓</p>
                             <p class="exchange-gain">Get <span class="gain civic">10</span> Civic</p>
                             <button id="convertPrimalButton" class="buy-button">Exchange</button>
                         </div>
-                        <!-- Civic to Primal -->
                         <div class="exchange-item">
                             <p class="exchange-rate">Spend <span class="cost civic" id="civicToPrimalCost">--</span> Civic</p>
                             <p class="exchange-arrow">↓</p>
@@ -83,7 +109,7 @@
             </div>
         </div>
     </div>
-    <!-- Load JS last -->
+    
     <script src="game.js"></script>
 </body>
 </html>
