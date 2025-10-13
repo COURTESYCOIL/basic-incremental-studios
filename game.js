@@ -1,6 +1,6 @@
 // === GAME STATE SETUP ===
 const defaultGameState = {
-    temporalShards: 1000,
+    temporalShards: 100000000,
     primalEssence: 0,
     gatherers: 0,
     gathererCost: 10,
