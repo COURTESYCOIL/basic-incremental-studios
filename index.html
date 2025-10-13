@@ -47,18 +47,37 @@
                 </div>
             </div>
 
-            <button id="nurtureButton" class="nurture-button">Nurture The First Seed</button>
+            <button id="nurtureButton" class="nurture-button">Nurture The First Seed (<span id="nurturePowerDisplay">+1</span>)</button>
 
             <div class="card-grid">
+                <!-- Generator Card -->
                 <div class="card">
                     <div class="card-header">
                         <h3>Cave Drawings</h3>
                         <div class="owned-display">Owned: <span id="gathererCountDisplay">0</span></div>
                     </div>
-                    <p class="card-desc">Unlock humanity's first expressions. Generates +1 Primal Essence/sec.</p>
+                    <p class="card-desc">Unlock humanity's first expressions. Generates base Primal Essence.</p>
                     <button id="buyGathererButton" class="buy-button">Plant (Cost: <span id="gathererCostDisplay">10</span>)</button>
                 </div>
-
+                <!-- Click Upgrade Card -->
+                <div class="card card-upgrade">
+                     <div class="card-header">
+                        <h3>Stone Tools</h3>
+                        <div class="owned-display">Level: <span id="stoneToolsLevelDisplay">0</span></div>
+                    </div>
+                    <p class="card-desc">Refine your methods. Increases Nurture power by +1 per level.</p>
+                    <button id="buyStoneToolsButton" class="buy-button">Craft (Cost: <span id="stoneToolsCostDisplay">50</span>)</button>
+                </div>
+                <!-- Production Upgrade Card -->
+                <div class="card card-upgrade">
+                     <div class="card-header">
+                        <h3>Ritual Drums</h3>
+                        <div class="owned-display">Level: <span id="ritualDrumsLevelDisplay">0</span></div>
+                    </div>
+                    <p class="card-desc">A powerful rhythm to inspire workers. Boosts Cave Drawing production by 20% per level.</p>
+                    <button id="buyRitualDrumsButton" class="buy-button">Carve (Cost: <span id="ritualDrumsCostDisplay">250</span>)</button>
+                </div>
+                <!-- Synergy Card -->
                 <div class="card card-synergy">
                     <div class="card-header">
                         <h3>Oral Traditions</h3>
