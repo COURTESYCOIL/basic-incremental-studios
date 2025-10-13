@@ -1,0 +1,97 @@
+body {
+    background-color: #2c2a31;
+    color: #e8e6e3;
+    font-family: 'IM Fell English', serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 700px;
+    background-color: #403d45;
+    border: 3px solid #605c66;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1, h2 {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.era-container {
+    padding: 15px;
+    border: 2px solid #5a5661;
+    border-radius: 5px;
+}
+
+.resource-display {
+    background-color: #2c2a31;
+    border: 1px solid #605c66;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.resource-display p {
+    margin: 5px 0;
+    font-size: 1.2em;
+}
+
+.resource-display span {
+    font-weight: bold;
+    color: #90ee90; /* A nice light green for contrast */
+}
+
+button {
+    background-color: #63524b;
+    color: #e8e6e3;
+    border: 2px solid #a89389;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #7d685e;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.upgrade-item {
+    background-color: #504d55;
+    border: 1px solid #605c66;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.upgrade-item p {
+    margin: 5px 0;
+}
+
+.save-section {
+    text-align: center;
+    margin-top: 20px;
+}
+#saveMessage {
+    margin-top: 10px;
+    font-style: italic;
+    color: #aaa;
+}
