@@ -22,6 +22,10 @@
                 <span id="headerCivicEssence">0</span>
                 (<span id="headerCivicPerSec">0.0</span>/s)
             </div>
+             <div class="resource-item shard">
+                <span class="resource-label">Temporal Shards</span>
+                <span id="temporalShardDisplay">0</span>
+            </div>
         </div>
         <div class="save-section">
             <button id="manualSaveButton" class="save-button">Save</button>
@@ -31,6 +35,34 @@
 
     <div class="main-container">
         <h1 class="main-title">Chrono-Gardener</h1>
+        
+        <!-- ================= META ABILITIES ================= -->
+        <div class="meta-container">
+             <h2 class="meta-title">Meta Abilities</h2>
+             <div class="card-grid">
+                <div class="card card-meta">
+                    <div class="card-header">
+                        <h3>Temporal Surge</h3>
+                    </div>
+                    <p class="card-desc">Expend Temporal Shards to warp time, instantly gaining resources from hours of production.</p>
+                    <div class="surge-control">
+                        <label for="surgeHoursInput">Hours to Surge:</label>
+                        <input type="number" id="surgeHoursInput" class="surge-input" value="1" min="1" step="1">
+                    </div>
+                    <div class="surge-details">
+                        <p class="surge-cost">Cost: <span class="cost shard" id="surgeCostDisplay">--</span> Shards</p>
+                        <div class="surge-gains">
+                            <p>Gains:</p>
+                            <ul>
+                                <li><span class="gain primal" id="surgePrimalGainDisplay">+0</span> Primal Essence</li>
+                                <li class="hidden" id="surgeCivicGainContainer"><span class="gain civic" id="surgeCivicGainDisplay">+0</span> Civic Essence</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button id="activateSurgeButton" class="buy-button">Activate Surge</button>
+                </div>
+             </div>
+        </div>
 
         <!-- ================= PREHISTORIC ERA ================= -->
         <div class="era-container" id="prehistoric-era">
@@ -50,7 +82,6 @@
             <button id="nurtureButton" class="nurture-button">Nurture The First Seed (<span id="nurturePowerDisplay">+1</span>)</button>
 
             <div class="card-grid">
-                <!-- Generator Card -->
                 <div class="card">
                     <div class="card-header">
                         <h3>Cave Drawings</h3>
@@ -59,7 +90,6 @@
                     <p class="card-desc">Unlock humanity's first expressions. Generates base Primal Essence.</p>
                     <button id="buyGathererButton" class="buy-button">Plant (Cost: <span id="gathererCostDisplay">10</span>)</button>
                 </div>
-                <!-- Click Upgrade Card -->
                 <div class="card card-upgrade">
                      <div class="card-header">
                         <h3>Stone Tools</h3>
@@ -68,7 +98,6 @@
                     <p class="card-desc">Refine your methods. Increases Nurture power by +1 per level.</p>
                     <button id="buyStoneToolsButton" class="buy-button">Craft (Cost: <span id="stoneToolsCostDisplay">50</span>)</button>
                 </div>
-                <!-- Production Upgrade Card -->
                 <div class="card card-upgrade">
                      <div class="card-header">
                         <h3>Ritual Drums</h3>
@@ -77,7 +106,6 @@
                     <p class="card-desc">A powerful rhythm to inspire workers. Boosts Cave Drawing production by 20% per level.</p>
                     <button id="buyRitualDrumsButton" class="buy-button">Carve (Cost: <span id="ritualDrumsCostDisplay">250</span>)</button>
                 </div>
-                <!-- Synergy Card -->
                 <div class="card card-synergy">
                     <div class="card-header">
                         <h3>Oral Traditions</h3>
@@ -103,15 +131,12 @@
                     <p class="card-desc">Scribes begin to document history. Generates +5 Civic Essence/sec.</p>
                     <button id="buyScribeButton" class="buy-button">Employ (Cost: <span id="scribeCostDisplay">10</span>)</button>
                 </div>
-
                 <div class="card card-exchange" id="temporal-exchange-card">
                     <div class="card-header">
                         <h3>Temporal Exchange</h3>
                     </div>
                     <p class="card-desc">Shift power between eras. Rates fluctuate based on supply and demand.</p>
-                    
                     <div class="exchange-actions">
-                        <!-- Primal to Civic -->
                         <div class="exchange-item">
                             <label class="exchange-label" for="civic-amount-input">Get Civic Essence</label>
                             <input type="number" id="civicAmountInput" class="exchange-input" value="100" min="10" step="10">
@@ -121,7 +146,6 @@
                             </div>
                             <button id="convertPrimalButton" class="buy-button">Exchange</button>
                         </div>
-                        <!-- Civic to Primal -->
                         <div class="exchange-item">
                              <label class="exchange-label" for="primal-amount-input">Get Primal Essence</label>
                             <input type="number" id="primalAmountInput" class="exchange-input" value="100" min="10" step="10">
