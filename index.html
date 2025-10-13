@@ -10,12 +10,13 @@
 <body>
     <div class="main-container">
         <h1>Chrono-Gardener</h1>
+        <!-- ================= PREHISTORIC ERA ================= -->
         <div class="era-container" id="prehistoric-era">
             <h2>The Prehistoric Era</h2>
 
             <div class="resource-display">
                 <p>Primal Essence: <span id="primalEssenceDisplay">0</span></p>
-                <p>per second: <span id="primalEssencePerSecondDisplay">0</span></p>
+                <p>per second: <span id="primalEssencePerSecondDisplay">0.0</span></p>
             </div>
 
             <div class="action-section">
@@ -28,7 +29,37 @@
                     <p><strong>Cave Drawings</strong></p>
                     <p>Generates 1 Essence per second.</p>
                     <p>Owned: <span id="gathererCountDisplay">0</span></p>
-                    <button id="buyGathererButton">Plant Seed (Cost: <span id="gathererCostDisplay">10</span> Essence)</button>
+                    <button id="buyGathererButton">Plant Seed (Cost: <span id="gathererCostDisplay">10</span> Primal)</button>
+                </div>
+            </div>
+
+            <div class="upgrade-section">
+                <h3>Synergy Upgrades</h3>
+                 <div class="upgrade-item">
+                    <p><strong>Oral Traditions</strong></p>
+                    <p>Ancient storytellers inspire early Scribes. Each Cave Drawing slightly boosts Civic Essence production.</p>
+                    <p>Level: <span id="oralTraditionsLevelDisplay">0</span></p>
+                    <button id="buyOralTraditionsButton" disabled>Research (Cost: <span id="oralTraditionsCostDisplay">1,000</span> Primal)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ANCIENT ERA (Initially Hidden) ================= -->
+        <div class="era-container hidden" id="ancient-era">
+            <h2>The Ancient Era</h2>
+
+            <div class="resource-display ancient">
+                <p>Civic Essence: <span id="civicEssenceDisplay">0</span></p>
+                <p>per second: <span id="civicEssencePerSecondDisplay">0.0</span></p>
+            </div>
+
+            <div class="upgrade-section">
+                <h3>Time Seeds (Generators)</h3>
+                <div class="upgrade-item">
+                    <p><strong>Written Language</strong></p>
+                    <p>Scribes begin documenting history, generating 5 Civic Essence per second.</p>
+                    <p>Owned: <span id="scribeCountDisplay">0</span></p>
+                    <button id="buyScribeButton">Employ Scribe (Cost: <span id="scribeCostDisplay">10</span> Civic)</button>
                 </div>
             </div>
         </div>
